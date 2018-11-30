@@ -9,7 +9,7 @@
   "author": "Ben Glasser",
   "license": "MIT",
   "bin": {
-    "dui": "./index.js"
+    "dui": "./src/index.js"
   },
   "dependencies": {
     "aws-sdk": "^2.366.0"
