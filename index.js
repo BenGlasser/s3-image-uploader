@@ -11,9 +11,8 @@ var bucketName = process.env.AWS_BUCKET ? process.env.AWS_BUCKET : console.log(`
 
 if (!(accessKeyId && secretAccessKey && bucketName)) process.exit(1)
 
-var file = process.argv[2] || './'
-var filepath = file[0] === '/' ? file : path.join(__dirname, file)
-
+var file = process.argv[2] || process.cwd()
+var filepath = file[0] === '/' ? file : path.join(process.cwd(), file)
 var s3 = new AWS.S3({
   apiVersion: '2006-03-01',
   credentials: {
@@ -33,15 +32,15 @@ var uploadCallback = (err, data) => {
 
 var uploadFile = (keyName, readStream, contentType) => {
   s3.upload({
-    Bucket: bucketName, 
-    Key: keyName, 
-    ACL: "public-read", 
+    Bucket: bucketName,
+    Key: keyName,
+    ACL: "public-read",
     Body: readStream,
     ContentType: contentType
   }, uploadCallback)
 }
 
-fs.stat(filepath, (err, stat) => {
+fs.lstat(filepath, (err, stat) => {
   if (!err && stat.isFile()) {
       var keyName = filepath.split('/').slice(-1)[0]
       var readStream = fs.createReadStream(filepath)

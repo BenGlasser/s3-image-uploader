@@ -12,7 +12,6 @@
     "dui": "./index.js"
   },
   "dependencies": {
-    "aws-sdk": "^2.366.0",
-    "fs": "0.0.1-security"
+    "aws-sdk": "^2.366.0"
   }
 }
