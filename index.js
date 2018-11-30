@@ -55,7 +55,6 @@ fs.stat(filepath, (err, stat) => {
           fs.stat(fileToUpload, (err, stat) => {
             if (!err && stat.isFile()) {
               var readStream = fs.createReadStream(fileToUpload)
-              var contentType = `image/${file.split('.').slice(-1)[0]}`
               var fileExtension = file.split('.').slice(-1)[0]
               var contentType = `image/${fileExtension}`
 
