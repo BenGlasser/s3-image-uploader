@@ -1,0 +1,19 @@
+{
+  "name": "s3-uploader",
+  "version": "1.0.0",
+  "description": "upload file or directory contents to s3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ben Glasser",
+  "license": "MIT",
+  "bin": {
+    "dui": "./index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.366.0",
+    "fs": "0.0.1-security",
+    "s3": "^4.4.0"
+  }
+}
