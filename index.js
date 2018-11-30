@@ -42,8 +42,7 @@ var uploadFile = (keyName, readStream, contentType) => {
 }
 
 fs.stat(filepath, (err, stat) => {
-  if (!err) {
-    if (stat.isFile()) {
+  if (!err && stat.isFile()) {
       var keyName = filepath.split('/').slice(-1)[0]
       var readStream = fs.createReadStream(filepath)
       var contentType = `image/${keyName.split('.').slice(-1)[0]}`
@@ -52,21 +51,25 @@ fs.stat(filepath, (err, stat) => {
     else if (stat.isDirectory()) {
       fs.readdir(filepath, (err, files) => {
         files.forEach(file => {
-          var readStream = fs.createReadStream(path.join(filepath, file))
-          var contentType = `image/${file.split('.').slice(-1)[0]}`
-          var fileExtension = file.split('.').slice(-1)[0]
-          var contentType = `image/${fileExtension}`
+          var fileToUpload = path.join(filepath, file)
+          fs.stat(fileToUpload, (err, stat) => {
+            if (!err && stat.isFile()) {
+              var readStream = fs.createReadStream(fileToUpload)
+              var contentType = `image/${file.split('.').slice(-1)[0]}`
+              var fileExtension = file.split('.').slice(-1)[0]
+              var contentType = `image/${fileExtension}`
 
-          if (fileExtension === 'png'
-            || fileExtension === 'jpg'
-            || fileExtension === 'gif'
-            || fileExtension === 'jpeg') {
-            uploadFile(file, readStream, contentType)
-          }
+              if (fileExtension === 'png'
+                || fileExtension === 'jpg'
+                || fileExtension === 'gif'
+                || fileExtension === 'jpeg') {
+                uploadFile(file, readStream, contentType)
+              }
+            }
+          })
         })
       })
     }
-  }
   else {
     console.log(filepath + ' does not exits')
   }
